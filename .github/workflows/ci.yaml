@@ -85,21 +85,21 @@ jobs:
      - name: Test OpenSearch Dashboards
        run: |
          version="$(yq .version rockcraft.yaml)"
-         opensearch_node="cm1"
-         docker network create opensearch-net > /dev/null
-         docker run -d --rm -it \
-           --name "${opensearch_node}" \
-           --network opensearch-net \
-           -e NODE_NAME="${opensearch_node}" \
-           -e INITIAL_CM_NODES="${opensearch_node}" \
-            charmed-opensearch:${version} > /dev/null
-         
+
+         # run opensearch and opensearch dashboards
+         opensearch_cont=$(docker run -d --rm \
+           --name cm0 \
+           -e NODE_NAME=cm0 \
+           -e INITIAL_CM_NODES=cm0 \
+            charmed-opensearch:"${version}"
+         )
+         opensearch_cont_ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' "${opensearch_cont}")
+
          docker run -d --rm \
              --name dashboards \
-             --network opensearch-net \
              -p 127.0.0.1:5601:5601 \
-             -e OPENSEARCH_HOSTS='["http://'"${opensearch_node}"':9200"]' \
-             opensearch-dashboards:${version} > /dev/null
+             -e OPENSEARCH_HOSTS='["http://'"${opensearch_cont_ip}"':9200"]' \
+             opensearch-dashboards:"${version}"
          
          sleep 10s
          
