@@ -46,10 +46,6 @@ parts:
       override-prime: |
         craftctl default
 
-        # opensearch-dashboards
-        mkdir -p data
-        mkdir -p extensions
-
         # enable security monitoring
         rocks=usr/share/rocks/
         mkdir -p ${rocks}
