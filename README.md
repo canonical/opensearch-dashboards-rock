@@ -26,13 +26,21 @@ sudo lxd init --auto
 ### Packing and Running the rock
 
 ```
-version=$(yq .version rockcraft.yaml)
 rockcraft pack
+
 ROCK=$(echo ./opensearch-dashboards_*.rock)
-sudo rockcraft.skopeo --insecure-policy copy oci-archive:$ROCK docker-daemon:opensearch-dashboards:${version}
-docker run --rm -it -p 127.0.0.1:5601:5601 \
-    -e OPENSEARCH_HOSTS='["<your-opensearch-host>:<port>"]' \
-    opensearch-dashboards:${version}
+version=$(yq .version rockcraft.yaml)
+
+sudo rockcraft.skopeo --insecure-policy \
+  copy \
+  oci-archive:"${ROCK}" \
+  docker-daemon:opensearch-dashboards:"${version}"
+
+docker run \
+  -d --rm \
+  -p 127.0.0.1:5601:5601 \
+  -e OPENSEARCH_HOSTS='["<your-opensearch-host>:<port>"]' \
+  opensearch-dashboards:${version}
 ```
 ### Example alongside containerized OpenSearch
 ```
