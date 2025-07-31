@@ -4,7 +4,7 @@ name: opensearch-dashboards
 base: ubuntu@24.04 # the base environment for this rock
 license: Apache-2.0
 
-version: '2.19.2' # just for humans. Semantic versioning is recommended
+version: '3.1.0' # just for humans. Semantic versioning is recommended
 
 summary: 'OpenSearch Dashboards: community-driven OpenSearch visualization suite.'
 description: |
@@ -36,7 +36,7 @@ parts:
     opensearch-dashboards-snap:
       plugin: nil
       stage-snaps:
-        - opensearch-dashboards/2/edge
+        - opensearch-dashboards/3/edge/dpe-7804
       stage:
         - "-opt/opensearch-dashboards/helpers"
         - "-opt/opensearch-dashboards/start.sh"
