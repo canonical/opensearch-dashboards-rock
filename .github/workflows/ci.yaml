@@ -69,9 +69,9 @@ jobs:
          # opensearch rock
          version="$(yq .version rockcraft.yaml)"
          base="$(yq .base rockcraft.yaml)"
-         opensearch_img="ghcr.io/canonical/charmed-opensearch:${version}-${base#*@}_edge"
+         opensearch_img="ghcr.io/canonical/opensearch:${version}-${base#*@}_edge"
          docker pull ${opensearch_img}
-         docker tag ${opensearch_img} charmed-opensearch:${version}
+         docker tag ${opensearch_img} opensearch:${version}
 
      - name: Create local image
        run: |
@@ -91,7 +91,7 @@ jobs:
            --name cm0 \
            -e NODE_NAME=cm0 \
            -e INITIAL_CM_NODES=cm0 \
-            charmed-opensearch:"${version}"
+            opensearch:"${version}"
          )
          opensearch_cont_ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' "${opensearch_cont}")
 
