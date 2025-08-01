@@ -39,7 +39,7 @@ sudo rockcraft.skopeo --insecure-policy \
 docker run \
   -d --rm \
   -p 127.0.0.1:5601:5601 \
-  -e OPENSEARCH_HOSTS='["<your-opensearch-host>:<port>"]' \
+  -e OPENSEARCH_HOSTS="[http://<your-opensearch-host>:<port>]" \
   opensearch-dashboards:${version}
 ```
 ### Example alongside containerized OpenSearch
@@ -59,7 +59,7 @@ opensearch_cont_ip=$(docker inspect -f '{{ .NetworkSettings.IPAddress }}' "${ope
 
 docker run -d --rm \
     -p 127.0.0.1:5601:5601 \
-    -e OPENSEARCH_HOSTS='["http://${opensearch_cont_ip}:9200"]' \
+    -e OPENSEARCH_HOSTS="[http://${opensearch_cont_ip}:9200]" \
     opensearch-dashboards:${version}
 ```
 OpenSearch Dashboards will now be accessible at http://localhost:5601.
