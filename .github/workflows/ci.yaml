@@ -69,7 +69,7 @@ jobs:
          # opensearch rock
          version="$(yq .version rockcraft.yaml)"
          base="$(yq .base rockcraft.yaml)"
-         opensearch_img="ghcr.io/canonical/charmed-opensearch:${version}-${base#*@}_edge"
+         opensearch_img="ghcr.io/canonical/opensearch:${version}-${base#*@}_edge"
          docker pull ${opensearch_img}
          docker tag ${opensearch_img} charmed-opensearch:${version}
 
